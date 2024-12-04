@@ -64,7 +64,7 @@ def edit_transaction(transaction_id):
             return render_template("edit.html", transaction=transaction)
     
     # If the transaction with the specified ID is not found, handle this case
-    return ("message": "Transaction not found"), 404
+    return {"message": "Transaction not found"}, 404
 
 # Delete operation
 
