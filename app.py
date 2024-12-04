@@ -11,7 +11,10 @@ transactions = [
     {'id': 3, 'date': '2023-06-03', 'amount': 300}
 ]
 
-# Read operation
+# Read operation: List all transactions
+@app.route("/")
+def get_transactions():
+    return render_template("transactions.html", transactions=transactions)
 
 # Create operation
 
