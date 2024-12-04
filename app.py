@@ -85,6 +85,31 @@ def delete_transaction(transaction_id):
     # Redirect to the transactions list page after deleting the transaction
     return redirect(url_for("get_transactions"))
 
+#Search operation: Search transactions within amount range
+@app.route("/search", methods=["GET", "POST"])
+def search_transactions():
+    if request.method == 'POST':
+        try:
+        # Retrieve min and max amounts from form data
+            min_amount = int(request.form.get('min_amount', -1_000_000_000))
+            max_amount = int(request.form.get('max_amount', 1_000_000_000))
+
+            # Filter transactions within the range
+            filtered_transactions = [
+                transaction for transaction in transactions
+                if min_amount <= transaction['amount'] <= max_amount
+            ]
+
+        except ValueError:
+            # Handle invalid input
+            return {"message": "Invalid input for min or max amount"}, 400
+
+        # Render the transactions.html template with filtered transactions
+        return render_template("transactions.html", transactions=filtered_transactions)
+        
+    # Render the search form if GET request
+    return render_template("search.html")
+
 # Run the Flask app
 if __name__ == "__main__":
     app.run(debug=True)
